@@ -28,15 +28,11 @@ class App extends Component{
     super();
     this.state={
         data: [],
-        page: 0,
-        rowsPerPage: 10,
-        filter: '',
-        average: 0.0
     };
   }
 
   async componentDidMount() {
-    fetch('https://swe432-assign8-backend.herokuapp.com/readReviews', {
+    fetch('http://localhost:3000/readReviews', {
       method: 'POST',
     })
     .then((response) => response.json())
@@ -88,35 +84,9 @@ class App extends Component{
      const columns = this.getColumns();
     return(
         <Paper>
-            {data.length > 0 && 
-                <div>
-                    <p>
-                    <a href="../">Return to form submition</a>
-                    </p>
-                    <p>Average Rating: {this.state.average}</p>
-                    <b></b>
-                </div>
-            }
-            <form>
-              <TextField style={{width: '100%'}} label="Filter" variant="filled" onChange={handleFilterChange} />
-            </form>
-            <TablePagination
             
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={data.length}
-                
-                rowsPerPage={rowsPerPage}
-                page={page}
-                backIconButtonProps={{
-                'aria-label': 'previous page',
-                }}
-                nextIconButtonProps={{
-                'aria-label': 'next page',
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
+            
+            
             <div> 
                 <Table stickyHeader aria-label="stickyTable">
                     <TableHead>
@@ -133,25 +103,8 @@ class App extends Component{
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.filter(i => i.first_name.toLowerCase().includes(filter) || i.last_name.toLowerCase().includes(filter) || 
-                                          i.number.toLowerCase().includes(filter) || i.building.toLowerCase().includes(filter) || 
-                                          i.comments.toLowerCase().includes(filter) || i.date.toLowerCase().includes(filter) || 
-                                          i.email.toLowerCase().includes(filter) || i.rating.toLowerCase().includes(filter))
-                                          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                                            return (
-                                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                {columns.map(column => {
-                                                    const value = row[column.id];
-                                                    return (
-                                                    <TableCell key={column.id} align={column.align} >
-                                                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                    </TableCell>
-                                                    );
-                                                })}
-                                                </TableRow>
-                                            )
-                                          })}
-                        {/* {data.map(row => {
+                        
+                        {data.map(row => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                 {columns.map(column => {
@@ -164,7 +117,7 @@ class App extends Component{
                                 })}
                                 </TableRow>
                             )
-                        })} */}
+                        })}
                     </TableBody>
                 </Table>
             </div>
