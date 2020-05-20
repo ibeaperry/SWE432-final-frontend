@@ -32,7 +32,7 @@ class App extends Component{
   }
 
   async componentDidMount() {
-    fetch('http://localhost:3000/readReviews', {
+    fetch('https://twobutton.herokuapp.com/readReviews', {
       method: 'POST',
     })
     .then((response) => response.json())
@@ -203,7 +203,7 @@ class App extends Component{
         </Paper>
     );
   }else{
-    return (<div>yup</div>)
+    return (<div>Waiting on backend to send data</div>)
   }
 }
   getColumns() {

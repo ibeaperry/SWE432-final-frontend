@@ -52,20 +52,20 @@ class App extends React.Component{
     const data = new FormData();
     console.log("formdata made?");
     data.append('first_name',this.state.first);
-    fetch('http://localhost:3000/clearText',{
+    fetch('https://twobutton.herokuapp.com/clearText',{
       method: 'POST',
     })
     .catch((error) =>{
       console.error("clearing error");
     });
-    // fetch('http://localhost:3000/clearReviews',{
+    // fetch('https://twobutton.herokuapp.com/clearReviews',{
     //   method: 'POST',
     //   body: data
     // })
     // .catch((error) =>{
     //   console.error("clearing error");
     // });
-    fetch('http://localhost:3000/writeReview', {
+    fetch('https://twobutton.herokuapp.com/writeReview', {
       method: 'POST',
       body: data
     })
