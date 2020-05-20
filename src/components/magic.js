@@ -58,18 +58,62 @@ class App extends Component{
     // this.setState({data: await resp.json()});
   }
   render(){
+      // const {data} = this.state;
       console.warn("DATA!!!")
-      // console.log(data);
-      var dats = this.state.data.toString().split('|');
-      var workpls = [];
-      var title = dats[1]
-      var columns = title;
-      console.log(title);
       var i;
+      var z;
+      console.log(this.state.data);
+      var dats = this.state.data.toString().split('|');
+      console.log(dats);
+      var workpls = [];
+      var title = [];
+      var trueColumns = []
+      // title = title.toString().split(',')
+      // var columnNames = [];
+      
+      // for(i = 0; i < title.length; i+= 2){
+      //   columnNames[i/2] = title[i];
+      // }
+      // console.log(columnNames);
+      for(i = 1; i < dats.length; i+= 2){
+        title[(i - 1) / 2] = dats[i];
+      }
+      console.log(title);
+      console.log(title[0]);
+      for(i = 0; i < title.length; i++){
+          title[i] = title[i].split(',');
+      }
+      console.log(title);
+      var tester = title[0];
+      if(tester != null){
+        console.log(tester.length);
+      for(i = 0; i < tester.length; i+=2){
+        trueColumns[i/2] = {id: tester[i], label: tester[i], minWidth: 20}
+        
+      }
+      console.log(trueColumns);
+      // for( i = 0; i < test.length; i++){
+
+      // }
+      // console.log("test: " + test)
+      // for(i = 0; i < title.length; i++){
+      //   for(z = 0; z < splits.length; z+= 2){
+      //     trueColumns[z / 2] = splits[z];
+
+      //   }
+      //   i = title.length;
+      // }
+      // console.log("true: " + trueColumns);
+      // var trueColumns = []
+      // for(i = 0; i < title[0].length; i+= 2){
+      //   var sheet = title[0];
+      //   truecolumns[i/2] = {id: sheet[i], label: sheet[i]}
+      // }
+
+      console.log(title);
       for(i = 0; i < dats.length - 1; i+= 2){
         workpls[i / 2] = dats[i];
       }
-      var z;
       for(i = 0; i < workpls.length; i++){
         for(z = 0; z < workpls[i].length; z++)
           workpls[i] = workpls[i].replace(' ', '');
@@ -77,13 +121,25 @@ class App extends Component{
         workpls[i] = workpls[i].split('');
       }
       console.log(workpls);
+      var finalData = "["
+      for(i = 0; i < workpls.length; i++){
+        var tempHoldVar = workpls[i];
+        var holder = '{ ' + '"' + tester[0*2] + '": ' +  tempHoldVar[0];
+        // { id: 'comments', label: 'Comments', minWidth: 100 },
+        for(z = 1; z < tempHoldVar.length; z += 1){
+          holder += ',' + '"' + tester[z*2] + '": ' +  tempHoldVar[z]
+        }
+        holder += "},"
+        finalData += holder;
+      }
+      finalData = finalData.substring(0,finalData.length - 1);
+      finalData += "]";
+      console.log("PLSTELL MEH");
+      console.log(finalData);
+      const data = JSON.parse(finalData);
       console.log(dats.toString().split('|'));
       console.log(this.state.data.entries);
-
-
-
-
-      const {data} = workpls;
+      // const {data} = workpls;
       const setPage = (page) => {
         this.setState({page: page});
       }
@@ -104,7 +160,7 @@ class App extends Component{
       const handleFilterChange = event => {
         this.setState({filter: event.target.value.toLowerCase()})
       }
-    //  const columns = this.getColumns();
+     const columns = this.getColumns();
     return(
         <Paper>
             
@@ -114,13 +170,13 @@ class App extends Component{
                 <Table stickyHeader aria-label="stickyTable">
                     <TableHead>
                         <TableRow>
-                            {columns.map(column => (
+                            {trueColumns.map(trueColumns => (
                                 <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    sytle={{minWidth: column.minWidth}}
+                                    key={trueColumns.id}
+                                    align={trueColumns.align}
+                                    sytle={{minWidth: trueColumns.minWidth}}
                                     >
-                                        {column.label}
+                                        {trueColumns.label}
                                 </TableCell>
                             ))}
                         </TableRow>
@@ -130,11 +186,11 @@ class App extends Component{
                         {data.map(row => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                {columns.map(column => {
-                                    const value = row[column.id];
+                                {trueColumns.map(trueColumns => {
+                                    const value = row[trueColumns.id];
                                     return (
-                                    <TableCell key={column.id} align={column.align} >
-                                        {column.format && typeof value === 'number' ? column.format(value) : value}
+                                    <TableCell key={trueColumns.id} align={trueColumns.align} >
+                                        {trueColumns.format && typeof value === 'number' ? trueColumns.format(value) : value}
                                     </TableCell>
                                     );
                                 })}
@@ -146,7 +202,10 @@ class App extends Component{
             </div>
         </Paper>
     );
+  }else{
+    return (<div>yup</div>)
   }
+}
   getColumns() {
     const columns = [
         { id: 'first_name', label: 'First Name', minWidth: 170 },
