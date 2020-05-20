@@ -58,12 +58,13 @@ class App extends React.Component{
     .catch((error) =>{
       console.error("clearing error");
     });
-    fetch('http://localhost:3000/clearReviews',{
-      method: 'POST',
-    })
-    .catch((error) =>{
-      console.error("clearing error");
-    });
+    // fetch('http://localhost:3000/clearReviews',{
+    //   method: 'POST',
+    //   body: data
+    // })
+    // .catch((error) =>{
+    //   console.error("clearing error");
+    // });
     fetch('http://localhost:3000/writeReview', {
       method: 'POST',
       body: data

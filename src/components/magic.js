@@ -58,9 +58,32 @@ class App extends Component{
     // this.setState({data: await resp.json()});
   }
   render(){
-      const {data,page,rowsPerPage,filter} = this.state;
       console.warn("DATA!!!")
-      console.log(data);
+      // console.log(data);
+      var dats = this.state.data.toString().split('|');
+      var workpls = [];
+      var title = dats[1]
+      var columns = title;
+      console.log(title);
+      var i;
+      for(i = 0; i < dats.length - 1; i+= 2){
+        workpls[i / 2] = dats[i];
+      }
+      var z;
+      for(i = 0; i < workpls.length; i++){
+        for(z = 0; z < workpls[i].length; z++)
+          workpls[i] = workpls[i].replace(' ', '');
+
+        workpls[i] = workpls[i].split('');
+      }
+      console.log(workpls);
+      console.log(dats.toString().split('|'));
+      console.log(this.state.data.entries);
+
+
+
+
+      const {data} = workpls;
       const setPage = (page) => {
         this.setState({page: page});
       }
@@ -81,12 +104,12 @@ class App extends Component{
       const handleFilterChange = event => {
         this.setState({filter: event.target.value.toLowerCase()})
       }
-     const columns = this.getColumns();
+    //  const columns = this.getColumns();
     return(
         <Paper>
             
             
-            
+            <div>{title}</div>
             <div> 
                 <Table stickyHeader aria-label="stickyTable">
                     <TableHead>
